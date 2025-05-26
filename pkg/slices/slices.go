@@ -26,8 +26,8 @@ func (s Slice[T]) Get(i int) T {
 	return s[i]
 }
 
-func (s *Slice[T]) Append(item T) Slice[T] {
-	*s = append(*s, item)
+func (s *Slice[T]) Append(item ...T) Slice[T] {
+	*s = append(*s, item...)
 	return *s
 }
 
