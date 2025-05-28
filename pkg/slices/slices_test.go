@@ -14,7 +14,7 @@ func TestSlice(t *testing.T) {
 	assert.Equal(t, "Tokyo", s.First())
 	assert.Equal(t, "Nagasaki", s.Last())
 
-	s = s.Append("Tokyo")
+	s.Append("Tokyo")
 	assert.Equal(t, 6, s.Len())
 
 	set, ok := s.Uniq()
@@ -25,25 +25,25 @@ func TestSlice(t *testing.T) {
 	assert.Equal(t, 5, s.Len())
 	assert.Equal(t, "Hiroshima", s.Get(2))
 
-	scopy := s.Map(func(item string, i int) string {
+	s.Map(func(item string, i int) string {
 		return item + " Prefecture"
 	})
-	assert.Equal(t, "Tokyo Prefecture", scopy.Get(0))
+	assert.Equal(t, "Tokyo Prefecture", s.Get(0))
 
 }
 
 func TestUnique(t *testing.T) {
 	// Uniq hardcore test:
-	mapSlice := New(map[string]int{
+	mapSlice := New[map[string]int]()
+	mapSlice.Append(map[string]int{
 		"Tokyo":     1,
 		"Nagasaki":  2,
-		"Hiroshima": 3},
-		map[string]int{
-			"Hiroshima": 3,
-			"Nagasaki":  2,
-			"Tokyo":     1,
-		})
-
+		"Hiroshima": 3})
+	mapSlice.Append(map[string]int{
+		"Hiroshima": 3,
+		"Nagasaki":  2,
+		"Tokyo":     1,
+	})
 	for range 10_000 {
 		uniqMapValues, ok := mapSlice.Uniq()
 		assert.True(t, ok)
