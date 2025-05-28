@@ -29,6 +29,10 @@ func (m Map[K, V]) MustGet(key K) V {
 	return m[key]
 }
 
+func (m Map[K, V]) Override(key K, override func(V) V) {
+	m[key] = override(m[key])
+}
+
 func (m Map[K, V]) Keys() []K {
 	keys := make([]K, 0, len(m))
 	for key := range m {
