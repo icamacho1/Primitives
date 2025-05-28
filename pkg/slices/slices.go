@@ -33,14 +33,12 @@ func (s Slice[T]) Get(i int) T {
 	return s[i]
 }
 
-func (s *Slice[T]) Append(item ...T) Slice[T] {
-	*s = append(*s, item...)
-	return *s
+func (s Slice[T]) Append(item ...T) Slice[T] {
+	return append(s, item...)
 }
 
-func (s *Slice[T]) Pop(i int) Slice[T] {
-	*s = slices.Delete(*s, i, i+1)
-	return *s
+func (s Slice[T]) Pop(i int) Slice[T] {
+	return slices.Delete(s, i, i+1)
 }
 
 func (s Slice[T]) Has(item T) bool {
