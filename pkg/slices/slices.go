@@ -52,18 +52,18 @@ func (s Slice[T]) Has(item T) bool {
 	return false
 }
 
-func (s Slice[T]) ForEach(doer func(T, int) T) {
-	sCopy := make(Slice[T], len(s))
+func (s Slice[T]) ForEach(doer func(T, int)) {
 	for i, item := range s {
-		sCopy[i] = doer(item, i)
+		doer(item, i)
 	}
 }
 
 func (s Slice[T]) Map(doer func(T, int) T) Slice[T] {
+	sCopy := slices.Clone(s)
 	for i, item := range s {
-		s[i] = doer(item, i)
+		sCopy[i] = doer(item, i)
 	}
-	return s
+	return sCopy
 }
 
 func (s Slice[T]) Uniq() (Slice[T], bool) {

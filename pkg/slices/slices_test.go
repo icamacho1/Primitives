@@ -25,10 +25,10 @@ func TestSlice(t *testing.T) {
 	assert.Equal(t, 5, s.Len())
 	assert.Equal(t, "Hiroshima", s.Get(2))
 
-	s.Map(func(item string, i int) string {
+	scopy := s.Map(func(item string, i int) string {
 		return item + " Prefecture"
 	})
-	assert.Equal(t, "Tokyo Prefecture", s.Get(0))
+	assert.Equal(t, "Tokyo Prefecture", scopy.Get(0))
 
 }
 
@@ -59,4 +59,15 @@ func TestUnique(t *testing.T) {
 	assert.True(t, ok)
 	assert.Equal(t, 1, uniqSliceValues.Len())
 	assert.Equal(t, []string{"Tokyo", "Nagasaki"}, uniqSliceValues.Get(0))
+}
+
+func TestForEach(t *testing.T) {
+	intSlice := New(1, 2, 3)
+
+	accum := 0
+	intSlice.ForEach(func(item, _ int) {
+		accum += item
+	})
+
+	assert.Equal(t, 6, accum)
 }
