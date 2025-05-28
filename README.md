@@ -1,4 +1,4 @@
-# Description
+# Description ![main](https://github.com/icamacho1/Primitives/actions/workflows/pr.yml/badge.svg?branch=main)
 Primitives is a Go library that provides enhanced functionality for basic data
 types (slices, maps, and sets) with a focus on expressive and efficient data manipulation.
 The library is built using Go's generics, making it type-safe and
