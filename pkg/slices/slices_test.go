@@ -25,10 +25,10 @@ func TestSlice(t *testing.T) {
 	assert.Equal(t, 5, s.Len())
 	assert.Equal(t, "Hiroshima", s.Get(2))
 
-	s.Map(func(item string, i int) string {
+	scopy := s.Map(func(item string, i int) string {
 		return item + " Prefecture"
 	})
-	assert.Equal(t, "Tokyo Prefecture", s.Get(0))
+	assert.Equal(t, "Tokyo Prefecture", scopy.Get(0))
 
 }
 
