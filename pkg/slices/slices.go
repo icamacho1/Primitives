@@ -52,12 +52,11 @@ func (s Slice[T]) Has(item T) bool {
 	return false
 }
 
-func (s Slice[T]) ForEach(doer func(T, int) T) Slice[T] {
+func (s Slice[T]) ForEach(doer func(T, int) T) {
 	sCopy := make(Slice[T], len(s))
 	for i, item := range s {
 		sCopy[i] = doer(item, i)
 	}
-	return sCopy
 }
 
 func (s Slice[T]) Map(doer func(T, int) T) Slice[T] {
