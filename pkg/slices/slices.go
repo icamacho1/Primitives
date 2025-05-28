@@ -1,6 +1,13 @@
 package slices
 
-import "slices"
+import (
+	"crypto/sha256"
+	"encoding/json"
+	"reflect"
+	"slices"
+
+	"github.com/icamacho1/Primitives/pkg/maps"
+)
 
 func New[T any](items ...T) Slice[T] {
 	s := make(Slice[T], len(items))
@@ -37,7 +44,12 @@ func (s *Slice[T]) Pop(i int) Slice[T] {
 }
 
 func (s Slice[T]) Has(item T) bool {
-	return has[T, any](s, item)
+	for _, v := range s {
+		if reflect.DeepEqual(v, item) {
+			return true
+		}
+	}
+	return false
 }
 
 func (s Slice[T]) ForEach(doer func(T, int) T) Slice[T] {
@@ -56,5 +68,19 @@ func (s Slice[T]) Map(doer func(T, int) T) Slice[T] {
 }
 
 func (s Slice[T]) Uniq() (Slice[T], bool) {
-	return uniq[T, any](s)
+	lookup := maps.New[string, bool]()
+	uniqSlice := make(Slice[T], 0, len(s))
+	for _, item := range s {
+		bytes, err := json.Marshal(item)
+		if err != nil {
+			return s, false
+		}
+		shaBytes := sha256.Sum256(bytes)
+		hash := string(shaBytes[:])
+		if !lookup.Has(hash) {
+			uniqSlice = append(uniqSlice, item)
+		}
+		lookup.Add(string(hash[:]), true)
+	}
+	return uniqSlice, true
 }

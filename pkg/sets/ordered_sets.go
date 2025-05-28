@@ -56,7 +56,7 @@ func (os *OrderedSet[T]) Pop(item T) *OrderedSet[T] {
 		// Get the items that will be shifted first
 		i := idx
 		for _, item := range os.items[idx:] {
-			os.lookup.Set(item, i-1)
+			os.lookup.Add(item, i-1)
 			i++
 		}
 		os.lookup.Pop(item)

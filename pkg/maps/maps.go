@@ -15,11 +15,6 @@ func (m Map[K, V]) Get(key K) (V, bool) {
 	return value, ok
 }
 
-func (m Map[K, V]) Set(key K, value V) Map[K, V] {
-	m[key] = value
-	return m
-}
-
 func (m Map[K, V]) Has(key K) bool {
 	_, ok := m[key]
 	return ok
@@ -35,14 +30,6 @@ func (m Map[K, V]) MustGet(key K) V {
 }
 
 func (m Map[K, V]) Keys() []K {
-	keys := make([]K, 0, len(m))
-	for key := range m {
-		keys = append(keys, key)
-	}
-	return keys
-}
-
-func (m Map[K, V]) Iterate() []K {
 	keys := make([]K, 0, len(m))
 	for key := range m {
 		keys = append(keys, key)
