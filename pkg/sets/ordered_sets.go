@@ -64,3 +64,7 @@ func (os *OrderedSet[T]) Pop(item T) *OrderedSet[T] {
 	}
 	return os
 }
+
+func (os *OrderedSet[T]) Items() slices.Slice[T] {
+	return os.items
+}
