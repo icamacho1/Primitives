@@ -9,6 +9,12 @@ on:
   pull_request:
     branches: ["main"]
 
+  workflow_call:
+    inputs:
+      release_version:
+        required: false
+        type: string
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,9 +29,19 @@ jobs:
       - name: Test
         run: go test -v ./...
 
-      - name: Run Semantic Release
-        uses: cycjimmy/semantic-release-action@v4
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
         with:
-          semantic_version: 21
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag_prefix: "v"
+          custom_tag: ${{ inputs.release_version }}
+
+      - name: Create Release
+        id: create_release
+        uses: nickatnight/releases-action@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branch: "main"
+          tag: ${{ steps.tag_version.outputs.new_tag }}
